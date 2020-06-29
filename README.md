@@ -1,75 +1,110 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# Scrumble API
 
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
-  
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://gitter.im/nestjs/nestjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge"><img src="https://badges.gitter.im/nestjs/nestjs.svg" alt="Gitter" /></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Scrumble is my personal project to manage a scrum powered by [NestJS](https://nestjs.com/) + [MongoDB](https://www.mongodb.com/) + [GraphQL](https://graphql.org/). It is heavily inspired by [Trello](https://trello.com/) and [Jira](https://www.atlassian.com/software/jira). The main purpose of this project is to create an easy-to-use scrum management tool for myself, but contribution is very welcomed.
 
-## Description
+## Getting Started
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-## Installation
+- [Adding dependencies](#adding-dependencies)
+- [Running tests](#running-the-tests)
+- [Formatting Code](#formatting-code)
 
-```bash
-$ npm install
+### Prerequisites
+
+You need the following softwares to run this project:
+* [NestJS](https://nestjs.com/)
+* [`yarn`](https://yarnpkg.com/en/)
+* [MongoDB](https://www.mongodb.com/)
+* [Docker](https://www.docker.com/)
+
+### Installing
+
+A step by step series of examples that tell you how to get a development env running
+
+1. Fork this repository
+
+2. Clone forked repository to your machine
+
+```
+git clone https://github.com/<your-github-user>/scrumble-api.git
 ```
 
-## Running the app
+3. Create file named `.env`, then copy `example.env` and fill the details
 
-```bash
-# development
-$ npm run start
+4. Run the project using docker
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```
+docker-compose up
+// or
+docker-compose up -d
 ```
 
-## Test
+5. Now you can access the swagger at `http://localhost:3000/api`. For GraphQL playground, access `http://localhost:3000/graphql`.
 
-```bash
-# unit tests
-$ npm run test
+## Adding dependencies
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+To add dependencies, run the following command:
+```
+yarn add <package-name>
+```
+Some dependencies should be added in `devDependencies`. To do that, run the following command:
+```
+yarn add -D <package-name>
 ```
 
-## Support
+## Running tests
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+To run tests only once, run:
+```
+yarn test
+```
+To run tests automatically while editing codes, run:
+```
+yarn test:watch
+```
 
-## Stay in touch
+## Formatting code
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+To format codes, run:
+```
+yarn format
+```
 
-## License
+# Contributing guideline
+As a contributor, here are guidelines we would like you to follow:
+- [Branches](#branches)
+- [Workflow](#workflow)
+- [Commit Message Convention](#commit-message-convention)
+- [Code review guideline](#code-review-guideline)
 
-  Nest is [MIT licensed](LICENSE).
+## Branches
+There are mainly 3 branches in this project:
+- `master` - This branch is **only** for production. You must not push to this branch.
+- `staging` - This branch is for staging, which is used for QA. You should not push to this branch.
+- `dev` - This branch stores the code in development. This is the branch to open pull request.
+
+## Workflow
+Please follow this workflow when working on an issue
+1. Assign yourself for the issue.
+2. Write code.
+3. Commit and push to your `origin` repository.
+4. Create a pull request to `upstream/dev` (template provided).
+5. Wait for code review.
+6. If change requested, fix it and push again.
+7. If approved, just wait for PR to be merged.
+
+## Commit Message Convention
+In this repository, we use [gitmoji](https://gitmoji.carloscuesta.me/) for commit message. Please use **only one** gitmoji for each commit. For example:
+
+```
+✨ Add user resolver
+```
+
+## Code review guideline
+Please make sure your PR follow this guideline or **it will be immediately rejected or requested to change**
+
+* The code is formatted (run `yarn format` before commit).
+* Write appropriate tests when adding or updating features.
+* The commit message is in the correct format.
+* Each endpoint has a proper documentation in swagger. In case of a GraphQL resolver, it will be automatically documented in GraphQL playground.

@@ -6,9 +6,9 @@ Scrumble is my personal project to manage a scrum powered by [NestJS](https://ne
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-- [Adding dependencies](#adding-dependencies)
-- [Running tests](#running-the-tests)
-- [Formatting Code](#formatting-code)
+* [Adding dependencies](#adding-dependencies)
+* [Running tests](#running-tests)
+* [Formatting Code](#formatting-code)
 
 ### Prerequisites
 
@@ -73,10 +73,14 @@ yarn format
 
 # Contributing guideline
 As a contributor, here are guidelines we would like you to follow:
+- [Feature request and bug report](#feature-request-and-bug-report)
 - [Branches](#branches)
 - [Workflow](#workflow)
 - [Commit Message Convention](#commit-message-convention)
 - [Code review guideline](#code-review-guideline)
+
+## Feature request and bug report
+If you want to request new features or report bugs please open an issue with clear detail (template provided). Interesting features or critical bugs will be marked as TODO waiting for contribution, otherwise revision may be needed.
 
 ## Branches
 There are mainly 3 branches in this project:

@@ -1,6 +1,6 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Priority } from '../enums/priority';
-import { Types } from 'mongoose';
+import { Types, Document } from 'mongoose';
 import { Ref } from '../types/ref';
 import { User } from './user.model';
 import { Epic } from './epic.model';

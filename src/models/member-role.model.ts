@@ -6,7 +6,7 @@ import { Project } from './project.model';
 import { Role } from '../enums/role';
 
 @Schema()
-export class ProjectMember extends Document {
+export class MemberRole extends Document {
   @Prop({ type: Types.ObjectId, ref: User.name, required: true })
   user: Ref<User>;
 
@@ -17,4 +17,4 @@ export class ProjectMember extends Document {
   role: Role;
 }
 
-export const ProjectMemberSchema = SchemaFactory.createForClass(ProjectMember);
+export const MemberRoleSchema = SchemaFactory.createForClass(MemberRole);

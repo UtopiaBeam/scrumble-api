@@ -1,5 +1,5 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
+import { Types, Document } from 'mongoose';
 import { Board } from './board.model';
 import { Ref } from '../types/ref';
 import { Epic } from './epic.model';

@@ -1,6 +1,6 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
-import { ProjectMember } from './project-member.model';
+import { Types, Document } from 'mongoose';
+import { MemberRole } from './member-role.model';
 import { Ref } from '../types/ref';
 import { Label } from './label.model';
 
@@ -12,8 +12,8 @@ export class Project extends Document {
   @Prop()
   description?: string;
 
-  @Prop({ type: Types.ObjectId, ref: ProjectMember.name, default: [] })
-  memberRoles: Ref<ProjectMember>[];
+  @Prop({ type: Types.ObjectId, ref: MemberRole.name, default: [] })
+  memberRoles: Ref<MemberRole>[];
 
   @Prop({ type: Types.ObjectId, ref: Label.name })
   labels: Ref<Label>[];

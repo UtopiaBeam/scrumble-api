@@ -7,24 +7,24 @@ import { ConfigService } from './config/config.service';
 import { SanitizerMiddleware } from './middlewares/sanitizer.middleware';
 
 @Module({
-  imports: [
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        uri: config.mongoUrl,
-        useNewUrlParser: true,
-        useFindAndModify: false,
-        useUnifiedTopology: true,
-      }),
-    }),
-    ConfigModule,
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+    imports: [
+        MongooseModule.forRootAsync({
+            imports: [ConfigModule],
+            inject: [ConfigService],
+            useFactory: (config: ConfigService) => ({
+                uri: config.mongoUrl,
+                useNewUrlParser: true,
+                useFindAndModify: false,
+                useUnifiedTopology: true,
+            }),
+        }),
+        ConfigModule,
+    ],
+    controllers: [AppController],
+    providers: [AppService],
 })
 export class AppModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(SanitizerMiddleware).forRoutes('*');
-  }
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(SanitizerMiddleware).forRoutes('*');
+    }
 }

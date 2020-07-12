@@ -5,11 +5,11 @@ import { Ref } from '../types/ref';
 
 @Schema({ timestamps: true })
 export class DailyReport extends Document {
-  @Prop({ required: true })
-  remainingPoint: number;
+    @Prop({ required: true })
+    remainingPoint: number;
 
-  @Prop({ type: Types.ObjectId, ref: 'Sprint' })
-  sprint: Ref<Sprint>;
+    @Prop({ type: Types.ObjectId, ref: 'Sprint' })
+    sprint: Ref<Sprint>;
 }
 
 export const DailyReportSchema = SchemaFactory.createForClass(DailyReport);

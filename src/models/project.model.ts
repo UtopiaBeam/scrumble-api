@@ -6,17 +6,17 @@ import { Label } from './label.model';
 
 @Schema({ timestamps: true })
 export class Project extends Document {
-  @Prop({ required: true })
-  name: string;
+    @Prop({ required: true })
+    name: string;
 
-  @Prop()
-  description?: string;
+    @Prop()
+    description?: string;
 
-  @Prop({ type: [Types.ObjectId], ref: 'MemberRole', default: [] })
-  memberRoles: Ref<MemberRole>[];
+    @Prop({ type: [Types.ObjectId], ref: 'MemberRole', default: [] })
+    memberRoles: Ref<MemberRole>[];
 
-  @Prop({ type: [Types.ObjectId], ref: 'Label', default: [] })
-  labels: Ref<Label>[];
+    @Prop({ type: [Types.ObjectId], ref: 'Label', default: [] })
+    labels: Ref<Label>[];
 }
 
 export const ProjectSchema = SchemaFactory.createForClass(Project);

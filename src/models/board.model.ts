@@ -5,14 +5,14 @@ import { Ref } from '../types/ref';
 
 @Schema({ timestamps: true })
 export class Board extends Document {
-  @Prop({ required: true })
-  name: string;
+    @Prop({ required: true })
+    name: string;
 
-  @Prop()
-  description?: string;
+    @Prop()
+    description?: string;
 
-  @Prop({ type: [Types.ObjectId], ref: 'List', default: [] })
-  lists: Ref<List>[];
+    @Prop({ type: [Types.ObjectId], ref: 'List', default: [] })
+    lists: Ref<List>[];
 }
 
 export const BoardSchema = SchemaFactory.createForClass(Board);

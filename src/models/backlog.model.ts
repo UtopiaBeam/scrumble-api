@@ -7,26 +7,26 @@ import { Epic } from './epic.model';
 
 @Schema({ timestamps: true })
 export class Backlog extends Document {
-  @Prop({ required: true })
-  name: string;
+    @Prop({ required: true })
+    name: string;
 
-  @Prop()
-  description?: string;
+    @Prop()
+    description?: string;
 
-  @Prop()
-  point?: number;
+    @Prop()
+    point?: number;
 
-  @Prop({ enum: Priority })
-  priority?: Priority;
+    @Prop({ enum: Priority })
+    priority?: Priority;
 
-  @Prop({ type: [Types.ObjectId], ref: 'Backlog', default: [] })
-  backlogs: Ref<Backlog>[];
+    @Prop({ type: [Types.ObjectId], ref: 'Backlog', default: [] })
+    backlogs: Ref<Backlog>[];
 
-  @Prop({ type: Types.ObjectId, ref: 'User' })
-  assignee?: Ref<User>;
+    @Prop({ type: Types.ObjectId, ref: 'User' })
+    assignee?: Ref<User>;
 
-  @Prop({ type: Types.ObjectId, ref: 'Epic', required: true })
-  epic: Ref<Epic>;
+    @Prop({ type: Types.ObjectId, ref: 'Epic', required: true })
+    epic: Ref<Epic>;
 }
 
 export const BacklogSchema = SchemaFactory.createForClass(Backlog);

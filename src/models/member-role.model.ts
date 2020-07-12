@@ -7,14 +7,14 @@ import { Role } from '../enums/role';
 
 @Schema()
 export class MemberRole extends Document {
-  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
-  user: Ref<User>;
+    @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+    user: Ref<User>;
 
-  @Prop({ type: Types.ObjectId, ref: 'Project', required: true })
-  project: Ref<Project>;
+    @Prop({ type: Types.ObjectId, ref: 'Project', required: true })
+    project: Ref<Project>;
 
-  @Prop({ enum: Role, default: Role.Viewer })
-  role: Role;
+    @Prop({ enum: Role, default: Role.Viewer })
+    role: Role;
 }
 
 export const MemberRoleSchema = SchemaFactory.createForClass(MemberRole);

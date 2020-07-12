@@ -5,17 +5,17 @@ import { Ref } from '../types/ref';
 
 @Schema()
 export class Epic extends Document {
-  @Prop({ required: true })
-  name: string;
+    @Prop({ required: true })
+    name: string;
 
-  @Prop()
-  description?: string;
+    @Prop()
+    description?: string;
 
-  @Prop({ required: true })
-  color: string;
+    @Prop({ required: true })
+    color: string;
 
-  @Prop({ type: [Types.ObjectId], ref: 'Backlog', default: [] })
-  backlogs: Ref<Backlog>[];
+    @Prop({ type: [Types.ObjectId], ref: 'Backlog', default: [] })
+    backlogs: Ref<Backlog>[];
 }
 
 export const EpicSchema = SchemaFactory.createForClass(Epic);

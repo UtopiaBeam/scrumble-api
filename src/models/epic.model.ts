@@ -14,7 +14,7 @@ export class Epic extends Document {
   @Prop({ required: true })
   color: string;
 
-  @Prop({ type: [Types.ObjectId], ref: Backlog.name, default: [] })
+  @Prop({ type: [Types.ObjectId], ref: 'Backlog', default: [] })
   backlogs: Ref<Backlog>[];
 }
 

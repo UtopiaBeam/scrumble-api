@@ -18,10 +18,10 @@ export class Sprint extends Document {
   @Prop({ required: true })
   endDate: Date;
 
-  @Prop({ type: [Types.ObjectId], ref: Board.name, default: [] })
+  @Prop({ type: [Types.ObjectId], ref: 'Board', default: [] })
   boards: Ref<Board>[];
 
-  @Prop({ type: [Types.ObjectId], ref: Epic.name, default: [] })
+  @Prop({ type: [Types.ObjectId], ref: 'Epic', default: [] })
   epics: Ref<Epic>[];
 }
 

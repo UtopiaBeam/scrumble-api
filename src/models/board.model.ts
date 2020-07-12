@@ -11,7 +11,7 @@ export class Board extends Document {
   @Prop()
   description?: string;
 
-  @Prop({ type: [Types.ObjectId], ref: List.name, default: [] })
+  @Prop({ type: [Types.ObjectId], ref: 'List', default: [] })
   lists: Ref<List>[];
 }
 

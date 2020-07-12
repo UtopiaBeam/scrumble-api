@@ -16,10 +16,10 @@ export class Retrospective extends Document {
   @Prop({ default: [] })
   actions: Comment[];
 
-  @Prop({ type: Types.ObjectId, ref: Sprint.name, required: true })
+  @Prop({ type: Types.ObjectId, ref: 'Sprint', required: true })
   sprint: Ref<Sprint>;
 
-  @Prop({ type: [Types.ObjectId], ref: User.name, default: [] })
+  @Prop({ type: [Types.ObjectId], ref: 'User', default: [] })
   participants: Ref<User>[];
 }
 

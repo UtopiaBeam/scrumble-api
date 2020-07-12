@@ -19,13 +19,13 @@ export class Backlog extends Document {
   @Prop({ enum: Priority })
   priority?: Priority;
 
-  @Prop({ type: [Types.ObjectId], ref: Backlog.name, default: [] })
+  @Prop({ type: [Types.ObjectId], ref: 'Backlog', default: [] })
   backlogs: Ref<Backlog>[];
 
-  @Prop({ type: Types.ObjectId, ref: User.name })
+  @Prop({ type: Types.ObjectId, ref: 'User' })
   assignee?: Ref<User>;
 
-  @Prop({ type: Types.ObjectId, ref: Epic.name, required: true })
+  @Prop({ type: Types.ObjectId, ref: 'Epic', required: true })
   epic: Ref<Epic>;
 }
 

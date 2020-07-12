@@ -12,10 +12,10 @@ export class Project extends Document {
   @Prop()
   description?: string;
 
-  @Prop({ type: Types.ObjectId, ref: MemberRole.name, default: [] })
+  @Prop({ type: [Types.ObjectId], ref: 'MemberRole', default: [] })
   memberRoles: Ref<MemberRole>[];
 
-  @Prop({ type: Types.ObjectId, ref: Label.name })
+  @Prop({ type: [Types.ObjectId], ref: 'Label', default: [] })
   labels: Ref<Label>[];
 }
 

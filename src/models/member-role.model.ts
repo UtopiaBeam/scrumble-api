@@ -7,10 +7,10 @@ import { Role } from '../enums/role';
 
 @Schema()
 export class MemberRole extends Document {
-  @Prop({ type: Types.ObjectId, ref: User.name, required: true })
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   user: Ref<User>;
 
-  @Prop({ type: Types.ObjectId, ref: Project.name, required: true })
+  @Prop({ type: Types.ObjectId, ref: 'Project', required: true })
   project: Ref<Project>;
 
   @Prop({ enum: Role, default: Role.Viewer })

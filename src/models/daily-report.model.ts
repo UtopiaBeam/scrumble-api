@@ -8,7 +8,7 @@ export class DailyReport extends Document {
   @Prop({ required: true })
   remainingPoint: number;
 
-  @Prop({ type: Types.ObjectId, ref: Sprint.name })
+  @Prop({ type: Types.ObjectId, ref: 'Sprint' })
   sprint: Ref<Sprint>;
 }
 

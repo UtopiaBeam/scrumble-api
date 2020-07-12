@@ -14,6 +14,6 @@ export class Comment extends Document {
   @Prop({ default: 0 })
   unlike: number;
 
-  @Prop({ type: Types.ObjectId, ref: User.name })
+  @Prop({ type: Types.ObjectId, ref: 'User' })
   author: Ref<User>;
 }

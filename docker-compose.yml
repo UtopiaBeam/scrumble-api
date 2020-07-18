@@ -3,7 +3,7 @@ version: "3.7"
 services:
   api:
     container_name: scrumble-api
-    image: node:10
+    image: node:12
     restart: unless-stopped
     volumes:
       - .:/server

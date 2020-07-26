@@ -8,7 +8,10 @@ import { ObjectType, Field } from '@nestjs/graphql';
 @Schema({ timestamps: true })
 export class User extends Document {
     @Field()
-    @Prop({ required: true })
+    id: string;
+
+    @Field()
+    @Prop({ required: true, unique: true })
     username: string;
 
     @Prop({ required: true, select: false })

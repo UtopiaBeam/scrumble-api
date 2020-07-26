@@ -6,6 +6,9 @@ import { ObjectType, Field } from '@nestjs/graphql';
 @Schema()
 export class Label extends Document {
     @Field()
+    id: string;
+
+    @Field()
     @Prop({ required: true })
     name: string;
 

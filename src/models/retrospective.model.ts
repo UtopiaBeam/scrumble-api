@@ -9,6 +9,9 @@ import { Field, ObjectType } from '@nestjs/graphql';
 @ObjectType()
 @Schema({ timestamps: true })
 export class Retrospective extends Document {
+    @Field()
+    id: string;
+
     @Field(() => [Comment])
     @Prop({ default: [] })
     wentWell: Comment[];

@@ -9,6 +9,9 @@ import { Field, ObjectType } from '@nestjs/graphql';
 @Schema({ timestamps: true })
 export class Project extends Document {
     @Field()
+    id: string;
+
+    @Field()
     @Prop({ required: true })
     name: string;
 

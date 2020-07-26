@@ -4,13 +4,16 @@ import { Types, Document } from 'mongoose';
 import { Ref } from '../types/ref';
 import { User } from './user.model';
 import { Epic } from './epic.model';
-import { registerEnumType, ObjectType, Field, Int } from '@nestjs/graphql';
+import { registerEnumType, ObjectType, Field } from '@nestjs/graphql';
 
 registerEnumType(Priority, { name: 'Priority' });
 
 @ObjectType()
 @Schema({ timestamps: true })
 export class Backlog extends Document {
+    @Field()
+    id: string;
+
     @Field()
     @Prop({ required: true })
     name: string;

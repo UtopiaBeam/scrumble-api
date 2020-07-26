@@ -8,6 +8,9 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 @Schema({ timestamps: true })
 export class Comment extends Document {
     @Field()
+    id: string;
+
+    @Field()
     @Prop({ required: true })
     text: string;
 

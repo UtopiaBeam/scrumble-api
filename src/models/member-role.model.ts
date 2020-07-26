@@ -11,6 +11,9 @@ registerEnumType(Role, { name: 'Role' });
 @ObjectType()
 @Schema()
 export class MemberRole extends Document {
+    @Field()
+    id: string;
+
     @Field(() => User)
     @Prop({ type: Types.ObjectId, ref: 'User', required: true })
     user: Ref<User>;

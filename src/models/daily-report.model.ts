@@ -7,6 +7,9 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 @ObjectType()
 @Schema({ timestamps: true })
 export class DailyReport extends Document {
+    @Field()
+    id: string;
+
     @Field(() => Int)
     @Prop({ required: true })
     remainingPoint: number;

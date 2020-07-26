@@ -9,6 +9,9 @@ async function bootstrap() {
         new ValidationPipe({ transform: true }),
         new SanitizationPipe(),
     );
-    await app.listen(3000);
+    if (process.env.NODE_ENV === 'development') {
+        app.enableCors();
+    }
+    await app.listen(process.env.PORT || 3000);
 }
 bootstrap();

@@ -5,9 +5,15 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { SanitizerMiddleware } from './middlewares/sanitizer.middleware';
+import { GraphQLModule } from '@nestjs/graphql';
+import { UserModule } from './user/user.module';
 
 @Module({
     imports: [
+        GraphQLModule.forRoot({
+            autoSchemaFile: true,
+            context: ctx => ctx.req,
+        }),
         MongooseModule.forRootAsync({
             imports: [ConfigModule],
             inject: [ConfigService],
@@ -19,6 +25,7 @@ import { SanitizerMiddleware } from './middlewares/sanitizer.middleware';
             }),
         }),
         ConfigModule,
+        UserModule,
     ],
     controllers: [AppController],
     providers: [AppService],

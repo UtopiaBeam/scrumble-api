@@ -10,6 +10,7 @@ import { User } from '../models/user.model';
 import { UserQueryArgs } from './dto/user.query';
 import { UserService } from './user.service';
 import { CreateUserMutation } from './dto/user.mutation';
+import { MemberRole } from '../models/member-role.model';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -25,7 +26,7 @@ export class UserResolver {
         return this.service.create(user);
     }
 
-    @ResolveField()
+    @ResolveField(() => [MemberRole])
     projectRoles(@Parent() user: User) {
         return this.service.findProjectRoles(user.id);
     }

@@ -4,7 +4,6 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
-import { SanitizerMiddleware } from './middlewares/sanitizer.middleware';
 import { GraphQLModule } from '@nestjs/graphql';
 import { UserModule } from './user/user.module';
 
@@ -30,8 +29,4 @@ import { UserModule } from './user/user.module';
     controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule {
-    configure(consumer: MiddlewareConsumer) {
-        consumer.apply(SanitizerMiddleware).forRoutes('*');
-    }
-}
+export class AppModule {}

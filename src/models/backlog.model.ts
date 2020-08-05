@@ -4,9 +4,7 @@ import { Types, Document } from 'mongoose';
 import { Ref } from '../types/ref';
 import { User } from './user.model';
 import { Epic } from './epic.model';
-import { registerEnumType, ObjectType, Field } from '@nestjs/graphql';
-
-registerEnumType(Priority, { name: 'Priority' });
+import { ObjectType, Field } from '@nestjs/graphql';
 
 @ObjectType()
 @Schema({ timestamps: true })

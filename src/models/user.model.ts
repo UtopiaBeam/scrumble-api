@@ -1,8 +1,7 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
-import { MemberRole } from './member-role.model';
-import { Ref } from '../types/ref';
+import { Document } from 'mongoose';
 import { ObjectType, Field } from '@nestjs/graphql';
+import { ProjectRole, ProjectRoleSchema } from './project-role.model';
 
 @ObjectType()
 @Schema({ timestamps: true })
@@ -21,9 +20,9 @@ export class User extends Document {
     @Prop({ required: true })
     email: string;
 
-    @Field(() => [MemberRole])
-    @Prop({ type: [Types.ObjectId], ref: 'MemberRole', default: [] })
-    projectRoles: Ref<MemberRole>[];
+    @Field(() => [ProjectRole])
+    @Prop({ type: [ProjectRoleSchema], default: [] })
+    projects: ProjectRole[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

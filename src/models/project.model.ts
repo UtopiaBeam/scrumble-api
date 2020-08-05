@@ -2,7 +2,7 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Types, Document } from 'mongoose';
 import { MemberRole } from './member-role.model';
 import { Ref } from '../types/ref';
-import { Label } from './label.model';
+import { Label, LabelSchema } from './label.model';
 import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
@@ -12,7 +12,7 @@ export class Project extends Document {
     id: string;
 
     @Field()
-    @Prop({ required: true })
+    @Prop({ required: true, unique: true })
     name: string;
 
     @Field({ nullable: true })
@@ -24,8 +24,8 @@ export class Project extends Document {
     memberRoles: Ref<MemberRole>[];
 
     @Field(() => [Label])
-    @Prop({ type: [Types.ObjectId], ref: 'Label', default: [] })
-    labels: Ref<Label>[];
+    @Prop({ type: [LabelSchema], default: [] })
+    labels: Label[];
 }
 
 export const ProjectSchema = SchemaFactory.createForClass(Project);

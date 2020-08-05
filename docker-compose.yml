@@ -11,20 +11,7 @@ services:
     env_file:
       - .env
     environment:
-      MONGO_URL: mongodb://mongo:27017/scrumble
+      MONGO_URL:
     ports:
       - "3000:3000"
       - "9229:9229"
-    depends_on:
-      - mongo
-  
-  mongo:
-    container_name: scrumble-mongo
-    image: mongo:4
-    restart: unless-stopped
-    volumes:
-      - ./volumes/mongodb:/data/db
-    ports:
-      - "27017:27017"
-
-

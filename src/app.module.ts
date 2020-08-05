@@ -6,6 +6,7 @@ import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { UserModule } from './user/user.module';
+import { ProjectModule } from './project/project.module';
 
 @Module({
     imports: [
@@ -25,6 +26,7 @@ import { UserModule } from './user/user.module';
         }),
         ConfigModule,
         UserModule,
+        ProjectModule,
     ],
     controllers: [AppController],
     providers: [AppService],

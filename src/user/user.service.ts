@@ -1,24 +1,31 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../models/user.model';
 import { Model } from 'mongoose';
-import { CreateUserMutation } from './dto/user.mutation';
+import { CreateUserMutation, EditUserMutation } from './dto/user.mutation';
 import * as bcrypt from 'bcryptjs';
 import { MemberRole } from '../models/member-role.model';
+import { ProjectRole } from '../models/project-role.model';
 
 @Injectable()
 export class UserService {
-    constructor(
-        @InjectModel(User.name) private readonly model: Model<User>,
-        @InjectModel(MemberRole.name)
-        private readonly memberRoleModel: Model<MemberRole>,
-    ) {}
+    constructor(@InjectModel(User.name) private readonly model: Model<User>) {}
 
     findById(id: string) {
-        return this.model.findById(id).exec();
+        return this.model
+            .findById(id)
+            .populate({ path: 'projects', populate: { path: 'project' } })
+            .exec();
     }
 
-    findByUsernameWithPassword(username: string) {
+    private findByIdWithPassword(id: string) {
+        return this.model
+            .findById(id)
+            .select('+password')
+            .exec();
+    }
+
+    private findByUsernameWithPassword(username: string) {
         return this.model
             .findOne({ username })
             .select('+password')
@@ -26,13 +33,35 @@ export class UserService {
     }
 
     async create(userDTO: CreateUserMutation) {
-        const password = await bcrypt.hash(userDTO.password, 10);
         const user = new this.model(userDTO);
-        user.password = password;
+        user.password = await bcrypt.hash(userDTO.password, 10);
         return user.save();
     }
 
-    findProjectRoles(id: string): Promise<MemberRole[]> {
-        return this.memberRoleModel.find({ user: id }).exec();
+    async edit(
+        id: string,
+        { newPassword, password, ...userDTO }: EditUserMutation,
+    ) {
+        if (!(await this.verifyById(id, password))) {
+            throw new UnauthorizedException();
+        }
+        const user = await this.model.findByIdAndUpdate(id, userDTO);
+        if (newPassword) {
+            user.password = await bcrypt.hash(newPassword, 10);
+        }
+        return user.save();
+    }
+
+    async verifyById(id: string, password: string): Promise<boolean> {
+        const user = await this.findByIdWithPassword(id);
+        return bcrypt.compare(password, user.password);
+    }
+
+    async verifyByUsername(
+        username: string,
+        password: string,
+    ): Promise<boolean> {
+        const user = await this.findByUsernameWithPassword(username);
+        return bcrypt.compare(password, user.password);
     }
 }

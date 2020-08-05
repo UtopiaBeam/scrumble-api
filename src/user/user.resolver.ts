@@ -9,8 +9,7 @@ import {
 import { User } from '../models/user.model';
 import { UserQueryArgs } from './dto/user.query';
 import { UserService } from './user.service';
-import { CreateUserMutation } from './dto/user.mutation';
-import { MemberRole } from '../models/member-role.model';
+import { CreateUserMutation, EditUserMutation } from './dto/user.mutation';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -22,12 +21,12 @@ export class UserResolver {
     }
 
     @Mutation(() => User)
-    createUser(@Args('data') user: CreateUserMutation) {
+    registerUser(@Args('data') user: CreateUserMutation) {
         return this.service.create(user);
     }
 
-    @ResolveField(() => [MemberRole])
-    projectRoles(@Parent() user: User) {
-        return this.service.findProjectRoles(user.id);
+    @Mutation(() => User)
+    editUser(@Args('id') id: string, @Args('data') user: EditUserMutation) {
+        return this.service.edit(id, user);
     }
 }

@@ -10,8 +10,12 @@ export class ConfigService {
         throw new Error(`'${name}' is undefined.`);
     }
 
-    get secret(): string {
-        return this.getEnv('SECRET');
+    get jwtSecret(): string {
+        return this.getEnv('JWT_SECRET');
+    }
+
+    get jwtExpire(): string {
+        return '1m';
     }
 
     get mongoUrl(): string {

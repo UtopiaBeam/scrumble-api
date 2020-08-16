@@ -8,6 +8,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { UserModule } from './user/user.module';
 import { ProjectModule } from './project/project.module';
 import { AuthModule } from './auth/auth.module';
+import { AuthMiddleware } from './middlewares/auth.middleware';
 
 @Module({
     imports: [
@@ -33,4 +34,8 @@ import { AuthModule } from './auth/auth.module';
     controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(AuthMiddleware).forRoutes('*');
+    }
+}

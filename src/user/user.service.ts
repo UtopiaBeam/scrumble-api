@@ -42,7 +42,7 @@ export class UserService {
         id: string,
         { newPassword, password, ...userDTO }: EditUserMutation,
     ) {
-        if (!(await this.verifyById(id, password))) {
+        if (!(await this.validateById(id, password))) {
             throw new UnauthorizedException();
         }
         const user = await this.model.findByIdAndUpdate(id, userDTO);
@@ -52,16 +52,21 @@ export class UserService {
         return user.save();
     }
 
-    async verifyById(id: string, password: string): Promise<boolean> {
-        const user = await this.findByIdWithPassword(id);
-        return bcrypt.compare(password, user.password);
+    private async validate(user: User, password: string) {
+        if (await bcrypt.compare(password, user.password)) {
+            const { password, ...result } = user;
+            return result;
+        }
+        return null;
     }
 
-    async verifyByUsername(
-        username: string,
-        password: string,
-    ): Promise<boolean> {
+    async validateById(id: string, password: string) {
+        const user = await this.findByIdWithPassword(id);
+        return this.validate(user, password);
+    }
+
+    async validateByUsername(username: string, password: string) {
         const user = await this.findByUsernameWithPassword(username);
-        return bcrypt.compare(password, user.password);
+        return this.validate(user, password);
     }
 }

@@ -13,5 +13,6 @@ import { MemberRole, MemberRoleSchema } from '../models/member-role.model';
         ]),
     ],
     providers: [UserService, UserResolver],
+    exports: [UserService],
 })
 export class UserModule {}

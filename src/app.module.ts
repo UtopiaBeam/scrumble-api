@@ -7,12 +7,13 @@ import { ConfigService } from './config/config.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { UserModule } from './user/user.module';
 import { ProjectModule } from './project/project.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
     imports: [
         GraphQLModule.forRoot({
             autoSchemaFile: true,
-            context: ctx => ctx.req,
+            context: ({ req }) => ({ req }),
         }),
         MongooseModule.forRootAsync({
             imports: [ConfigModule],
@@ -27,6 +28,7 @@ import { ProjectModule } from './project/project.module';
         ConfigModule,
         UserModule,
         ProjectModule,
+        AuthModule,
     ],
     controllers: [AppController],
     providers: [AppService],

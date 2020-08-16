@@ -1,15 +1,9 @@
-import {
-    Resolver,
-    Query,
-    Args,
-    Mutation,
-    Parent,
-    ResolveField,
-} from '@nestjs/graphql';
+import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { User } from '../models/user.model';
 import { UserQueryArgs } from './dto/user.query';
 import { UserService } from './user.service';
 import { CreateUserMutation, EditUserMutation } from './dto/user.mutation';
+import { CurrentUser } from '../decorators/current-user';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -18,6 +12,11 @@ export class UserResolver {
     @Query(() => User)
     user(@Args() args: UserQueryArgs) {
         return this.service.findById(args.id);
+    }
+
+    @Query(() => User)
+    me(@CurrentUser() user: User) {
+        return this.service.findById(user.id);
     }
 
     @Mutation(() => User)

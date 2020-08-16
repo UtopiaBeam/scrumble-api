@@ -52,10 +52,9 @@ export class UserService {
         return user.save();
     }
 
-    private async validate(user: User, password: string) {
+    private async validate(user: User, password: string): Promise<User> {
         if (await bcrypt.compare(password, user.password)) {
-            const { password, ...result } = user;
-            return result;
+            return user;
         }
         return null;
     }

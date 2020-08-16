@@ -10,6 +10,10 @@ export class ConfigService {
         throw new Error(`'${name}' is undefined.`);
     }
 
+    get secret(): string {
+        return this.getEnv('SECRET');
+    }
+
     get mongoUrl(): string {
         return this.getEnv('MONGO_URL');
     }

@@ -15,7 +15,7 @@ export class ConfigService {
     }
 
     get jwtExpire(): string {
-        return '1m';
+        return '60d';
     }
 
     get mongoUrl(): string {

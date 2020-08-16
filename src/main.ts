@@ -9,7 +9,7 @@ async function bootstrap() {
     if (process.env.NODE_ENV === 'development') {
         app.enableCors();
     }
-    
+
     registerEnumType(Role, { name: 'Role' });
     registerEnumType(Priority, { name: 'Priority' });
 

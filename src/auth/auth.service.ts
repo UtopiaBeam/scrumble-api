@@ -1,9 +1,13 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+    Injectable,
+    UnauthorizedException,
+    BadRequestException,
+} from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../models/user.model';
-import { ConfigService } from '../config/config.service';
 import { JwtToken } from './dto/auth.dto';
+import { RegisterMutation } from './dto/auth.mutation';
 
 @Injectable()
 export class AuthService {
@@ -13,14 +17,26 @@ export class AuthService {
     ) {}
 
     async login(username: string, password: string): Promise<JwtToken> {
-        const user: User = await this.userService.validateByUsername(
+        const user = await this.userService.validateByUsername(
             username,
             password,
         );
+        return this.signToken(user);
+    }
+
+    async register({ confirmPassword, ...userDTO }: RegisterMutation) {
+        if (confirmPassword !== userDTO.password) {
+            throw new BadRequestException('Passwords are not matched');
+        }
+        const user = await this.userService.create(userDTO);
+        return this.signToken(user);
+    }
+
+    private signToken(user: User): JwtToken {
         if (!user) {
             throw new UnauthorizedException();
         }
-        const payload = { userId: user.id, username };
+        const payload = { userId: user.id, username: user.username };
         return { token: this.jwtService.sign(payload) };
     }
 

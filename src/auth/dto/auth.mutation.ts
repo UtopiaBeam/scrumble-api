@@ -8,3 +8,18 @@ export class LoginMutation {
     @Field()
     password: string;
 }
+
+@InputType()
+export class RegisterMutation {
+    @Field()
+    username: string;
+
+    @Field()
+    password: string;
+
+    @Field()
+    email: string;
+
+    @Field()
+    confirmPassword: string;
+}

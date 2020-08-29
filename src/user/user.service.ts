@@ -2,10 +2,11 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../models/user.model';
 import { Model } from 'mongoose';
-import { CreateUserMutation, EditUserMutation } from './dto/user.mutation';
+import { EditUserMutation } from './dto/user.mutation';
 import * as bcrypt from 'bcryptjs';
 import { MemberRole } from '../models/member-role.model';
 import { ProjectRole } from '../models/project-role.model';
+import { CreateUserDTO } from './dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -32,7 +33,7 @@ export class UserService {
             .exec();
     }
 
-    async create(userDTO: CreateUserMutation) {
+    async create(userDTO: CreateUserDTO) {
         const user = new this.model(userDTO);
         user.password = await bcrypt.hash(userDTO.password, 10);
         return user.save();

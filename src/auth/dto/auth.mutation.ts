@@ -19,7 +19,4 @@ export class RegisterMutation {
 
     @Field()
     email: string;
-
-    @Field()
-    confirmPassword: string;
 }

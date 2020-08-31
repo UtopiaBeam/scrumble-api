@@ -24,10 +24,7 @@ export class AuthService {
         return this.signToken(user);
     }
 
-    async register({ confirmPassword, ...userDTO }: RegisterMutation) {
-        if (confirmPassword !== userDTO.password) {
-            throw new BadRequestException('Passwords are not matched');
-        }
+    async register(userDTO: RegisterMutation) {
         const user = await this.userService.create(userDTO);
         return this.signToken(user);
     }

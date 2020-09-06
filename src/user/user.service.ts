@@ -1,21 +1,29 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+    Injectable,
+    UnauthorizedException,
+    NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../models/user.model';
 import { Model } from 'mongoose';
 import { EditUserMutation } from './dto/user.mutation';
 import * as bcrypt from 'bcryptjs';
+import { RegisterMutation } from '../auth/dto/auth.mutation';
+import { Project } from '../models/project.model';
 import { MemberRole } from '../models/member-role.model';
-import { ProjectRole } from '../models/project-role.model';
-import { CreateUserDTO } from './dto/user.dto';
 
 @Injectable()
 export class UserService {
-    constructor(@InjectModel(User.name) private readonly model: Model<User>) {}
+    constructor(
+        @InjectModel(User.name) private readonly model: Model<User>,
+        @InjectModel(MemberRole.name)
+        private readonly memberRoleModel: Model<MemberRole>,
+    ) {}
 
     findById(id: string) {
         return this.model
             .findById(id)
-            .populate({ path: 'projects', populate: { path: 'project' } })
+            .populate({ path: 'projectRoles', populate: { path: 'project' } })
             .exec();
     }
 
@@ -33,7 +41,7 @@ export class UserService {
             .exec();
     }
 
-    async create(userDTO: CreateUserDTO) {
+    async create(userDTO: RegisterMutation) {
         const user = new this.model(userDTO);
         user.password = await bcrypt.hash(userDTO.password, 10);
         return user.save();
@@ -68,5 +76,16 @@ export class UserService {
     async validateByUsername(username: string, password: string) {
         const user = await this.findByUsernameWithPassword(username);
         return this.validate(user, password);
+    }
+
+    async findProjects(id: string) {
+        const projects = await this.memberRoleModel
+            .find({ user: id })
+            .populate('projectRoles')
+            .exec();
+        return projects.map(p => ({
+            role: p.role,
+            ...(p.project as Project),
+        }));
     }
 }

@@ -1,11 +1,22 @@
-import { Resolver, Query, Mutation, Args, ResolveField, Parent } from '@nestjs/graphql';
+import {
+    Resolver,
+    Query,
+    Mutation,
+    Args,
+    ResolveField,
+    Parent,
+} from '@nestjs/graphql';
 import { ProjectService } from './project.service';
 import { Project } from '../models/project.model';
 import {
     CreateProjectMutation,
     EditProjectMutation,
-    AddProjectMembersMutation,
+    AddProjectMemberMutation,
 } from './dto/project.mutation';
+import { CurrentUser } from '../decorators/current-user';
+import { User } from '../models/user.model';
+import { ProjectMember } from './dto/project.dto';
+import { MemberRole } from '../models/member-role.model';
 
 @Resolver(() => Project)
 export class ProjectResolver {
@@ -17,8 +28,11 @@ export class ProjectResolver {
     }
 
     @Mutation(() => Project)
-    createProject(@Args('data') project: CreateProjectMutation) {
-        return this.service.create(project);
+    createProject(
+        @CurrentUser() user: User,
+        @Args('data') project: CreateProjectMutation,
+    ) {
+        return this.service.create(user, project);
     }
 
     @Mutation(() => Project)
@@ -29,11 +43,16 @@ export class ProjectResolver {
         return this.service.edit(id, project);
     }
 
-    @Mutation(() => Project)
+    @Mutation(() => ProjectMember)
     addProjectMember(
         @Args('id') id: string,
-        @Args('data') { userId }: AddProjectMembersMutation,
-    ) {
-        return this.service.addMember(id, userId);
+        @Args('data') data: AddProjectMemberMutation,
+    ): Promise<MemberRole> {
+        return this.service.addMember(id, data);
+    }
+
+    @ResolveField(() => [ProjectMember])
+    members(@Parent() project: Project) {
+        return this.service.findMembers(project.id);
     }
 }

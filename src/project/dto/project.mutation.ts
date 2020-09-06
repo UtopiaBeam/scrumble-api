@@ -1,4 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
+import { Role } from '../../enums/role';
 
 @InputType()
 export class CreateProjectMutation {
@@ -19,7 +20,10 @@ export class EditProjectMutation {
 }
 
 @InputType()
-export class AddProjectMembersMutation {
+export class AddProjectMemberMutation {
     @Field()
     userId: string;
+
+    @Field(() => Role, { nullable: true })
+    role?: Role;
 }

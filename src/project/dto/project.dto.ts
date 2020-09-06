@@ -1,9 +1,9 @@
 import { ObjectType, Field } from '@nestjs/graphql';
+import { User } from '../../models/user.model';
 import { Role } from '../../enums/role';
-import { Project } from '../../models/project.model';
 
 @ObjectType()
-export class UserProject extends Project {
+export class ProjectMember extends User {
     @Field(() => Role)
     role: Role;
 }

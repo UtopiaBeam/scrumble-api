@@ -6,6 +6,7 @@ import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { UserModule } from './user/user.module';
+import { EpicModule } from './epic/epic.module';
 import { ProjectModule } from './project/project.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthMiddleware } from './middlewares/auth.middleware';
@@ -29,6 +30,7 @@ import { AuthMiddleware } from './middlewares/auth.middleware';
         }),
         ConfigModule,
         UserModule,
+        EpicModule,
         ProjectModule,
         AuthModule,
     ],

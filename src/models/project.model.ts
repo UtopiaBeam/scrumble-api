@@ -14,7 +14,7 @@ export class Project extends Document {
     id: string;
 
     @Field()
-    @Prop({ required: true, unique: true })
+    @Prop({ required: true })
     name: string;
 
     @Field({ nullable: true })

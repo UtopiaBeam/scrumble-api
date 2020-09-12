@@ -22,14 +22,14 @@ export class Project extends Document {
     description?: string;
 
     @Field(() => [Epic])
-    @Prop({ type: [Types.ObjectId], ref: 'Epic', default: [] })
+    @Prop({ type: [Types.ObjectId], ref: 'Epic' })
     epics: Ref<Epic>[];
 
     @Field(() => [Board])
-    @Prop({ type: [Types.ObjectId], ref: 'Board', default: [] })
+    @Prop({ type: [Types.ObjectId], ref: 'Board' })
     boards: Ref<Board>[];
 
-    @Prop({ type: [Types.ObjectId], ref: 'MemberRole', default: [] })
+    @Prop({ type: [Types.ObjectId], ref: 'MemberRole' })
     memberRoles: Ref<MemberRole>[];
 
     @Field(() => [Label])

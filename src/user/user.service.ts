@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../models/user.model';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { EditUserMutation } from './dto/user.mutation';
 import * as bcrypt from 'bcryptjs';
 import { RegisterMutation } from '../auth/dto/auth.mutation';
@@ -80,12 +80,13 @@ export class UserService {
 
     async findProjects(id: string) {
         const projects = await this.memberRoleModel
-            .find({ user: id })
-            .populate('projectRoles')
+            .find({ user: Types.ObjectId(id) })
+            .populate('project')
             .exec();
         return projects.map(p => ({
             role: p.role,
-            ...(p.project as Project),
+            id: p.id,
+            ...(p.toObject().project as Project),
         }));
     }
 }

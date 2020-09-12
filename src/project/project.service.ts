@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Project } from '../models/project.model';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import {
     CreateProjectMutation,
     EditProjectMutation,
@@ -38,19 +38,20 @@ export class ProjectService {
 
     async findMembers(id: string) {
         const members = await this.memberRoleModel
-            .find({ project: id })
+            .find({ project: Types.ObjectId(id) })
             .populate('user')
             .exec();
         return members.map(m => ({
             role: m.role,
-            ...(m.user as User),
+            id: m.id,
+            ...(m.toObject().user as User),
         }));
     }
 
     addMember(id: string, memberDTO: AddProjectMemberMutation) {
         const projectMember = new this.memberRoleModel({
-            user: memberDTO.userId,
-            project: id,
+            user: Types.ObjectId(memberDTO.userId),
+            project: Types.ObjectId(id),
             role: memberDTO.role,
         });
         return projectMember.save();

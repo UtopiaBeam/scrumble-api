@@ -3,6 +3,7 @@ import { Document, Types } from 'mongoose';
 import { Backlog } from './backlog.model';
 import { Ref } from '../types/ref';
 import { ObjectType, Field } from '@nestjs/graphql';
+import { Project } from './project.model';
 
 @ObjectType()
 @Schema()
@@ -22,8 +23,10 @@ export class Epic extends Document {
     @Prop({ required: true })
     color: string;
 
-    @Field(() => [Backlog])
-    @Prop({ type: [Types.ObjectId], ref: 'Backlog', default: [] })
+    @Prop({ type: Types.ObjectId, ref: 'Project' })
+    project: Ref<Project>;
+
+    @Prop({ type: [Types.ObjectId], ref: 'Backlog' })
     backlogs: Ref<Backlog>[];
 }
 

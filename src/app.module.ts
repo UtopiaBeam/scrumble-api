@@ -15,6 +15,7 @@ import { AuthMiddleware } from './middlewares/auth.middleware';
         GraphQLModule.forRoot({
             autoSchemaFile: true,
             context: ({ req }) => ({ req }),
+            playground: process.env.NODE_ENV !== 'production',
         }),
         MongooseModule.forRootAsync({
             imports: [ConfigModule],

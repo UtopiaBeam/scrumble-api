@@ -1,64 +1,47 @@
-import {
-    Injectable,
-    UnauthorizedException,
-    NotFoundException,
-} from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { User } from '../models/user.model';
-import { Model, Types } from 'mongoose';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { EditUserMutation } from './dto/user.mutation';
 import * as bcrypt from 'bcryptjs';
 import { RegisterMutation } from '../auth/dto/auth.mutation';
-import { Project } from '../models/project.model';
-import { MemberRole } from '../models/member-role.model';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from '../entities/User.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
     constructor(
-        @InjectModel(User.name) private readonly model: Model<User>,
-        @InjectModel(MemberRole.name)
-        private readonly memberRoleModel: Model<MemberRole>,
+        @InjectRepository(User) private readonly repo: Repository<User>,
     ) {}
 
-    findById(id: string) {
-        return this.model
-            .findById(id)
-            .populate({ path: 'projectRoles', populate: { path: 'project' } })
-            .exec();
+    findById(id: number) {
+        return this.repo.findOne(id);
     }
 
-    private findByIdWithPassword(id: string) {
-        return this.model
-            .findById(id)
-            .select('+password')
-            .exec();
+    private findByIdWithPassword(id: number) {
+        return this.repo.findOne(id, { select: ['password'] });
     }
 
     private findByUsernameWithPassword(username: string) {
-        return this.model
-            .findOne({ username })
-            .select('+password')
-            .exec();
+        return this.repo.findOne({ username }, { select: ['password'] });
     }
 
     async create(userDTO: RegisterMutation) {
-        const user = new this.model(userDTO);
+        const user = this.repo.create(userDTO);
         user.password = await bcrypt.hash(userDTO.password, 10);
-        return user.save();
+        return this.repo.save(user);
     }
 
     async edit(
-        id: string,
+        id: number,
         { newPassword, password, ...userDTO }: EditUserMutation,
     ) {
         if (!(await this.validateById(id, password))) {
             throw new UnauthorizedException();
         }
-        const user = await this.model.findByIdAndUpdate(id, userDTO);
+        const user = { ...(await this.repo.findOne(id)), ...userDTO };
         if (newPassword) {
             user.password = await bcrypt.hash(newPassword, 10);
         }
-        return user.save();
+        return this.repo.save(user);
     }
 
     private async validate(user: User, password: string): Promise<User> {
@@ -68,7 +51,7 @@ export class UserService {
         return null;
     }
 
-    async validateById(id: string, password: string) {
+    async validateById(id: number, password: string) {
         const user = await this.findByIdWithPassword(id);
         return this.validate(user, password);
     }
@@ -76,17 +59,5 @@ export class UserService {
     async validateByUsername(username: string, password: string) {
         const user = await this.findByUsernameWithPassword(username);
         return this.validate(user, password);
-    }
-
-    async findProjects(id: string) {
-        const projects = await this.memberRoleModel
-            .find({ user: Types.ObjectId(id) })
-            .populate('project')
-            .exec();
-        return projects.map(p => ({
-            role: p.role,
-            id: p.id,
-            ...(p.toObject().project as Project),
-        }));
     }
 }

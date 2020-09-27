@@ -10,8 +10,6 @@ services:
     command: sh -c 'cd /server && yarn && yarn start:debug'
     env_file:
       - .env
-    environment:
-      MONGO_URL:
     ports:
       - "3000:3000"
       - "9229:9229"

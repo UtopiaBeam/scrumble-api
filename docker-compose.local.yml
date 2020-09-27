@@ -1,0 +1,34 @@
+version: "3.7"
+
+services:
+  api:
+    container_name: scrumble-api
+    image: node:12
+    restart: unless-stopped
+    volumes:
+      - .:/server
+    command: sh -c 'cd /server && yarn && yarn start:debug'
+    env_file:
+      - .env
+    environment:
+      POSTGRES_URL: postgresql://scrumble:scrumble@db:5432/scrumble
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    depends_on:
+      - db
+  
+  db:
+    container_name: scrumble-db
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: scrumble
+      POSTGRES_PASSWORD: scrumble
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  db-data:

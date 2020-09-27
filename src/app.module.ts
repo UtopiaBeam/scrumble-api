@@ -1,15 +1,14 @@
 import { Module, MiddlewareConsumer } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { GraphQLModule } from '@nestjs/graphql';
-import { UserModule } from './user/user.module';
-import { EpicModule } from './epic/epic.module';
+import { UserModule } from './user/user.module'; 
 import { ProjectModule } from './project/project.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthMiddleware } from './middlewares/auth.middleware';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
     imports: [
@@ -18,19 +17,12 @@ import { AuthMiddleware } from './middlewares/auth.middleware';
             context: ({ req }) => ({ req }),
             playground: process.env.NODE_ENV !== 'production',
         }),
-        MongooseModule.forRootAsync({
+        TypeOrmModule.forRootAsync({
             imports: [ConfigModule],
-            inject: [ConfigService],
-            useFactory: (config: ConfigService) => ({
-                uri: config.mongoUrl,
-                useNewUrlParser: true,
-                useFindAndModify: false,
-                useUnifiedTopology: true,
-            }),
+            useExisting: ConfigService,
         }),
         ConfigModule,
         UserModule,
-        EpicModule,
         ProjectModule,
         AuthModule,
     ],

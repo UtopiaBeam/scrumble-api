@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { join } from 'path';
 
 @Injectable()
-export class ConfigService {
+export class ConfigService implements TypeOrmOptionsFactory {
     private getEnv(name: string): string {
         const env = process.env[name];
         if (env) {
@@ -18,7 +20,16 @@ export class ConfigService {
         return '60d';
     }
 
-    get mongoUrl(): string {
-        return this.getEnv('MONGO_URL');
+    createTypeOrmOptions(): TypeOrmModuleOptions {
+        return {
+            type: 'postgres',
+            url: this.getEnv('POSTGRES_URL'),
+            entities: [join(__dirname, '../**/*.entity{.ts,.js}')],
+            synchronize: true,
+            extra: {
+                charset: 'utf8mb4_unicode_ci',
+            },
+            ssl: process.env.NODE_ENV === 'production',
+        };
     }
 }

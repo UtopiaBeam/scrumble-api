@@ -9,6 +9,7 @@ import { ProjectModule } from './project/project.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthMiddleware } from './middlewares/auth.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { FileModule } from './file/file.module';
 
 @Module({
     imports: [
@@ -25,6 +26,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         UserModule,
         ProjectModule,
         AuthModule,
+        FileModule,
     ],
     controllers: [AppController],
     providers: [AppService],
